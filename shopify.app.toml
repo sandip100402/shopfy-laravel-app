@@ -2,7 +2,7 @@
 
 client_id = "29efab96cbb03baffd0e8578052393e9"
 name = "VDCStore MarketPlace"
-application_url = "https://db048f1d24e8.ngrok-free.app"
+application_url = "https://55f0e1a435eb.ngrok-free.app"
 embedded = false
 
 [webhooks]
@@ -16,10 +16,10 @@ use_legacy_install_flow = false
 
 [auth]
 redirect_urls = [
-"https://db048f1d24e8.ngrok-free.app",
-"https://db048f1d24e8.ngrok-free.app/callback",
-"https://db048f1d24e8.ngrok-free.app/install"
+"https://55f0e1a435eb.ngrok-free.app",
+"https://55f0e1a435eb.ngrok-free.app/callback",
+"https://55f0e1a435eb.ngrok-free.app/install"
 ]
 
 [app_preferences]
-url = "https://db048f1d24e8.ngrok-free.app"
+url = "https://55f0e1a435eb.ngrok-free.app"

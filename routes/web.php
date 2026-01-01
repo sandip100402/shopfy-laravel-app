@@ -6,6 +6,9 @@ use App\Http\Controllers\ShopifyController;
 use App\Http\Controllers\WebhookController;
 
 Route::get('/', [ShopifyController::class, 'index']);
+Route::get('/shopify', [ShopifyController::class, 'shopify']);
+Route::get('/shopify/auth', [ShopifyController::class, 'auth'])
+    ->name('shopify.auth');
 Route::get('/install', [ShopifyController::class, 'install'])->name('install');
 Route::get('/callback', [ShopifyController::class, 'callback'])->name('callback');
 Route::post(
@@ -17,7 +20,8 @@ Route::get('/dashboard', function () {
 
     // ❌ No session → block
     if (!session()->has('shop')) {
-        abort(403, 'Session expired');
+        return redirect()->route('shopify');
+        // abort(403, 'Session expired');
     }
 
     $shop = session('shop');
@@ -26,8 +30,11 @@ Route::get('/dashboard', function () {
     $shopData = \App\Models\Shop::where('shop', $shop)->first();
 
     if (!$shopData || empty($shopData->access_token)) {
-        abort(403, 'Access token missing');
+        return redirect()->route('shopify');
+        // abort(403, 'Access token missing');
     }
 
-    return "✅ Secure dashboard for shop: {$shop}";
+    return view('dashboard', [
+        'shop' => $shop
+    ]);
 });

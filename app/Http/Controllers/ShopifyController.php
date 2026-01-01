@@ -52,10 +52,6 @@ class ShopifyController extends Controller
         // 5️⃣ Clean redirect
         return redirect('/dashboard');
     }
-    
-    
-    
-
 
     // install.php equivalent
     public function install(Request $request)
@@ -123,4 +119,35 @@ class ShopifyController extends Controller
         return redirect('/dashboard');
     }
 
+
+    public function shopify(Request $request)
+    {
+        if (session()->has('shop')) {
+            return redirect('/dashboard');
+        }
+        return view('shopify');
+    }
+    
+    public function auth(Request $request)
+    {
+        if (session()->has('shop')) {
+            return redirect('/dashboard');
+        }
+        
+        $request->validate([
+            'shop' => ['required', 'regex:/^[a-z0-9][a-z0-9\-]*\.myshopify\.com$/']
+        ]);
+
+        $shop = $request->shop;
+
+        // OAuth install URL
+        $query = http_build_query([
+            'client_id' => env('SHOPIFY_API_KEY'),
+            'scope' => env('SHOPIFY_SCOPES'),
+            'redirect_uri' => route('callback'),
+            'response_type' => 'code',
+        ]);
+
+        return redirect("https://{$shop}/admin/oauth/authorize?{$query}");
+    }
 }
